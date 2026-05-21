@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Encuesta en Tiempo Real</title>
+    <title>Encuesta con Registro</title>
     <style>
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
@@ -20,8 +20,30 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         h2 { margin-top: 0; color: #2c3e50; }
+        .campo-correo {
+            margin-bottom: 25px;
+        }
+        .campo-correo label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .campo-correo input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        .bloque-pregunta {
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
         .opcion { 
-            margin: 15px 0; 
+            margin: 12px 0; 
             padding: 10px;
             border: 1px solid #e0e0e0;
             border-radius: 4px;
@@ -54,9 +76,16 @@
 <body>
 
     <div class="card">
-        <h2>¿Qué tecnología tienes más ganas de aprender este año?</h2>
+        <h2>Formulario de Encuesta</h2>
         
         <form id="formEncuesta">
+            <div class="campo-correo">
+                <label for="correoUsuario">Tu Correo Electrónico:</label>
+                <input type="email" id="correoUsuario" placeholder="ejemplo@correo.com" required>
+            </div>
+
+            <div class="bloque-pregunta">¿Qué tecnología tienes más ganas de aprender este año?</div>
+            
             <div class="opcion">
                 <input type="radio" id="opcion1" name="encuesta" value="React / Vue / Angular" required>
                 <label for="opcion1">Frameworks Frontend (React/Vue)</label>
@@ -84,7 +113,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, push, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // Tus credenciales exactas de Firebase
+        // Tus credenciales de Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyBkCm1pbSyFg-d9nDoMAWboOSUJSm52n88",
             authDomain: "encuestas-20eaa.firebaseapp.com",
@@ -96,7 +125,7 @@
             measurementId: "G-PF1WWE259J"
         };
 
-        // Inicializar Firebase y Realtime Database
+        // Inicializar Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
@@ -104,26 +133,28 @@
         document.getElementById('formEncuesta').addEventListener('submit', async (e) => {
             e.preventDefault();
             
+            // Capturar los valores ingresados por el usuario
+            const correoIngresado = document.getElementById('correoUsuario').value;
             const opcionSeleccionada = document.querySelector('input[name="encuesta"]:checked').value;
             const mensajeHtml = document.getElementById('mensaje');
 
             try {
-                // Creamos una referencia a la carpeta "votos" en tu Realtime Database
                 const votosRef = ref(db, 'votos');
                 
-                // Hacemos un 'push' para agregar un nuevo voto con ID único
+                // Guardamos el correo junto con el voto y el timestamp
                 await push(votosRef, {
+                    correo: correoIngresado,
                     opcion: opcionSeleccionada,
-                    timestamp: serverTimestamp() // Guarda la hora exacta del servidor
+                    timestamp: serverTimestamp()
                 });
 
                 mensajeHtml.style.color = "#27ae60";
-                mensajeHtml.innerText = "¡Voto registrado con éxito! 🎉";
+                mensajeHtml.innerText = "¡Voto y datos registrados con éxito! 🎉";
                 document.getElementById('formEncuesta').reset();
             } catch (error) {
-                console.error("Error al votar:", error);
+                console.error("Error al guardar:", error);
                 mensajeHtml.style.color = "#e74c3c";
-                mensajeHtml.innerText = "Error al enviar el voto. Revisa las reglas de tu BD.";
+                mensajeHtml.innerText = "Error al enviar los datos. Revisa la configuración.";
             }
         });
     </script>
