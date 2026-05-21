@@ -3,160 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Encuesta con Registro</title>
+    <title>Encuesta Minimalista</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            max-width: 500px; 
-            margin: 50px auto; 
-            padding: 20px; 
-            background-color: #f4f7f6;
-            color: #333;
+        :root { --bg: #f9f9fb; --text: #1d1d1f; --accent: #0071e3; --card: #ffffff; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; display: flex; justify-content: center; padding: 40px 20px; }
+        .container { width: 100%; max-width: 600px; }
+        .card { background: var(--card); padding: 40px; border-radius: 18px; box-shadow: 0 8px 30px rgba(0,0,0,0.04); }
+        h1 { font-size: 28px; font-weight: 600; margin-bottom: 30px; letter-spacing: -0.5px; }
+        .input-group { margin-bottom: 30px; }
+        label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 10px; opacity: 0.8; }
+        input[type="email"] { width: 100%; padding: 12px; border: 1px solid #d2d2d7; border-radius: 12px; font-size: 16px; outline: none; box-sizing: border-box; transition: border 0.2s; }
+        input[type="email"]:focus { border-color: var(--accent); }
+        
+        .question-block { margin-bottom: 35px; border-top: 1px solid #f2f2f7; padding-top: 25px; }
+        .question-text { font-size: 17px; font-weight: 400; margin-bottom: 15px; }
+        .options-grid { display: grid; gap: 10px; }
+        .option-item { position: relative; }
+        .option-item input { position: absolute; opacity: 0; }
+        .option-item label { 
+            display: block; padding: 12px 15px; background: #f5f5f7; border-radius: 10px; 
+            cursor: pointer; transition: all 0.2s; font-weight: 400; opacity: 1; margin: 0;
         }
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        h2 { margin-top: 0; color: #2c3e50; }
-        .campo-correo {
-            margin-bottom: 25px;
-        }
-        .campo-correo label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-        .campo-correo input[type="email"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 16px;
-        }
-        .bloque-pregunta {
-            margin-bottom: 20px;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-        .opcion { 
-            margin: 12px 0; 
-            padding: 10px;
-            border: 1px solid #e0e0e0;
-            border-radius: 4px;
-            transition: background 0.2s;
-        }
-        .opcion:hover { background-color: #f9f9f9; }
-        input[type="radio"] { margin-right: 10px; transform: scale(1.2); cursor: pointer; }
-        label { cursor: pointer; font-size: 16px; }
+        .option-item input:checked + label { background: var(--accent); color: white; }
+
         button { 
-            width: 100%;
-            padding: 12px; 
-            background-color: #2ecc71; 
-            color: white; 
-            border: none; 
-            border-radius: 4px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer; 
-            margin-top: 15px;
+            width: 100%; background: var(--accent); color: white; border: none; 
+            padding: 16px; border-radius: 12px; font-size: 16px; font-weight: 600; 
+            cursor: pointer; transition: opacity 0.2s; margin-top: 20px;
         }
-        button:hover { background-color: #27ae60; }
-        #mensaje { 
-            margin-top: 15px; 
-            text-align: center; 
-            font-weight: bold; 
-            color: #27ae60; 
-        }
+        button:hover { opacity: 0.9; }
+        #status { text-align: center; margin-top: 20px; font-size: 14px; }
     </style>
 </head>
 <body>
 
+<div class="container">
     <div class="card">
-        <h2>Formulario de Encuesta</h2>
-        
-        <form id="formEncuesta">
-            <div class="campo-correo">
-                <label for="correoUsuario">Tu Correo Electrónico:</label>
-                <input type="email" id="correoUsuario" placeholder="ejemplo@correo.com" required>
+        <h1>Formulario de Opinión</h1>
+        <form id="pollForm">
+            <div class="input-group">
+                <label>Correo Electrónico</label>
+                <input type="email" id="email" placeholder="nombre@ejemplo.com" required>
             </div>
 
-            <div class="bloque-pregunta">¿Qué tecnología tienes más ganas de aprender este año?</div>
-            
-            <div class="opcion">
-                <input type="radio" id="opcion1" name="encuesta" value="React / Vue / Angular" required>
-                <label for="opcion1">Frameworks Frontend (React/Vue)</label>
+            <div class="question-block">
+                <div class="question-text">1. ¿Qué te parece el diseño minimalista?</div>
+                <div class="options-grid">
+                    <div class="option-item"><input type="radio" name="p1" id="p1a" value="Excelente" required><label for="p1a">Excelente</label></div>
+                    <div class="option-item"><input type="radio" name="p1" id="p1b" value="Bueno"><label for="p1b">Bueno</label></div>
+                    <div class="option-item"><input type="radio" name="p1" id="p1c" value="Mejorable"><label for="p1c">Mejorable</label></div>
+                </div>
             </div>
-            <div class="opcion">
-                <input type="radio" id="opcion2" name="encuesta" value="NodeJS / Python (Backend)">
-                <label for="opcion2">Desarrollo Backend (Node/Python)</label>
+
+            <div class="question-block">
+                <div class="question-text">2. ¿Qué plataforma prefieres?</div>
+                <div class="options-grid">
+                    <div class="option-item"><input type="radio" name="p2" id="p2a" value="Web" required><label for="p2a">Web</label></div>
+                    <div class="option-item"><input type="radio" name="p2" id="p2b" value="App"><label for="p2b">App</label></div>
+                </div>
             </div>
-            <div class="opcion">
-                <input type="radio" id="opcion3" name="encuesta" value="Inteligencia Artificial / APIs">
-                <label for="opcion3">Integración de IA y APIs</label>
-            </div>
-            <div class="opcion">
-                <input type="radio" id="opcion4" name="encuesta" value="Cloud / Firebase / AWS">
-                <label for="opcion4">Cloud y Bases de datos (Firebase/AWS)</label>
-            </div>
-            
-            <button type="submit">Enviar mi voto</button>
+
+            <button type="submit" id="btnSubmit">Enviar Respuestas</button>
         </form>
-
-        <p id="mensaje"></p>
+        <div id="status"></div>
     </div>
+</div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, push, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, push, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // Tus credenciales de Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyBkCm1pbSyFg-d9nDoMAWboOSUJSm52n88",
-            authDomain: "encuestas-20eaa.firebaseapp.com",
-            databaseURL: "https://encuestas-20eaa-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "encuestas-20eaa",
-            storageBucket: "encuestas-20eaa.firebasestorage.app",
-            messagingSenderId: "380516256923",
-            appId: "1:380516256923:web:a1063b569d6275c24b8a3e",
-            measurementId: "G-PF1WWE259J"
+    const firebaseConfig = {
+        apiKey: "AIzaSyBkCm1pbSyFg-d9nDoMAWboOSUJSm52n88",
+        authDomain: "encuestas-20eaa.firebaseapp.com",
+        databaseURL: "https://encuestas-20eaa-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "encuestas-20eaa",
+        storageBucket: "encuestas-20eaa.firebasestorage.app",
+        messagingSenderId: "380516256923",
+        appId: "1:380516256923:web:a1063b569d6275c24b8a3e"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    document.getElementById('pollForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('btnSubmit');
+        btn.disabled = true;
+        btn.innerText = "Enviando...";
+
+        // Recopilar todas las respuestas en un objeto
+        const respuestas = {
+            pregunta1: document.querySelector('input[name="p1"]:checked').value,
+            pregunta2: document.querySelector('input[name="p2"]:checked').value,
+            // Agrega aquí p3, p4... hasta p10
         };
 
-        // Inicializar Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-
-        // Capturar el envío del formulario
-        document.getElementById('formEncuesta').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            // Capturar los valores ingresados por el usuario
-            const correoIngresado = document.getElementById('correoUsuario').value;
-            const opcionSeleccionada = document.querySelector('input[name="encuesta"]:checked').value;
-            const mensajeHtml = document.getElementById('mensaje');
-
-            try {
-                const votosRef = ref(db, 'votos');
-                
-                // Guardamos el correo junto con el voto y el timestamp
-                await push(votosRef, {
-                    correo: correoIngresado,
-                    opcion: opcionSeleccionada,
-                    timestamp: serverTimestamp()
-                });
-
-                mensajeHtml.style.color = "#27ae60";
-                mensajeHtml.innerText = "¡Voto y datos registrados con éxito! 🎉";
-                document.getElementById('formEncuesta').reset();
-            } catch (error) {
-                console.error("Error al guardar:", error);
-                mensajeHtml.style.color = "#e74c3c";
-                mensajeHtml.innerText = "Error al enviar los datos. Revisa la configuración.";
-            }
-        });
-    </script>
+        try {
+            await push(ref(db, 'votos'), {
+                correo: document.getElementById('email').value,
+                respuestas: respuestas,
+                timestamp: serverTimestamp() // Firebase guarda milisegundos, los convertiremos en la otra web
+            });
+            document.getElementById('status').innerHTML = "✨ Enviado correctamente";
+            document.getElementById('pollForm').reset();
+        } catch (err) {
+            document.getElementById('status').innerText = "Error al enviar";
+        } finally {
+            btn.disabled = false;
+            btn.innerText = "Enviar Respuestas";
+        }
+    });
+</script>
 </body>
 </html>
