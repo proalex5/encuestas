@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --bg: #f4f4f9; 
+            --bg: #fdfaf5; 
             --text: #1d1d1f; 
             --accent: #0f2c59; 
             --accent-hover: #1d447e;
@@ -375,9 +375,12 @@
                 respuestas: respuestas,
                 timestamp: serverTimestamp()
             });
-            
-            statusDiv.style.color = "#2ecc71";
-            statusDiv.innerHTML = "✨ Evaluación enviada correctamente. ¡Gracias por su tiempo!";
+        
+            // Después de que los datos se envíen con éxito:
+            alert("Evaluación enviada correctamente. ¡Gracias por su tiempo!");
+            // Opcional: Redirigir a una página de gracias o limpiar el formulario
+            window.location.reload();
+
             document.getElementById('pollForm').reset();
         } catch (err) {
             console.error(err);
