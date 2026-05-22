@@ -3,68 +3,327 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Encuesta Minimalista</title>
+    <title>TanatoTech - Encuesta de Calidad</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #dbdbf7; --text: #1d1d1f; --accent: #0071e3; --card: #f3e3e3; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; display: flex; justify-content: center; padding: 40px 20px; }
-        .container { width: 100%; max-width: 600px; }
-        .card { background: var(--card); padding: 40px; border-radius: 18px; box-shadow: 0 8px 30px rgba(0,0,0,0.04); }
-        h1 { font-size: 28px; font-weight: 600; margin-bottom: 30px; letter-spacing: -0.5px; }
-        .input-group { margin-bottom: 30px; }
-        label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 10px; opacity: 0.8; }
-        input[type="email"] { width: 100%; padding: 12px; border: 1px solid #d2d2d7; border-radius: 12px; font-size: 16px; outline: none; box-sizing: border-box; transition: border 0.2s; }
-        input[type="email"]:focus { border-color: var(--accent); }
-        
-        .question-block { margin-bottom: 35px; border-top: 1px solid #f2f2f7; padding-top: 25px; }
-        .question-text { font-size: 17px; font-weight: 400; margin-bottom: 15px; }
-        .options-grid { display: grid; gap: 10px; }
-        .option-item { position: relative; }
-        .option-item input { position: absolute; opacity: 0; }
-        .option-item label { 
-            display: block; padding: 12px 15px; background: #f5f5f7; border-radius: 10px; 
-            cursor: pointer; transition: all 0.2s; font-weight: 400; opacity: 1; margin: 0;
+        :root { 
+            --bg: #f4f4f9; 
+            --text: #1d1d1f; 
+            --accent: #0f2c59; 
+            --accent-hover: #1d447e;
+            --card: #ffffff; 
         }
-        .option-item input:checked + label { background: var(--accent); color: white; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text); 
+            margin: 0; 
+            display: flex; 
+            justify-content: center; 
+            padding: 40px 20px; 
+        }
+        .container { width: 100%; max-width: 650px; }
+        .card { 
+            background: var(--card); 
+            padding: 40px; 
+            border-radius: 18px; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05); 
+        }
+        
+        /* Estilos del Logo y Encabezado */
+        .brand-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+        .brand-logo {
+            max-width: 130px;
+            height: auto;
+            margin-bottom: 15px;
+        }
+        h1 { 
+            font-size: 26px; 
+            font-weight: 600; 
+            margin: 0;
+            color: var(--accent);
+            letter-spacing: -0.5px; 
+        }
+        .subtitle {
+            font-size: 14px;
+            color: #6e6e73;
+            margin-top: 5px;
+        }
+
+        .input-group { margin-bottom: 35px; }
+        label.main-label { display: block; font-size: 15px; font-weight: 600; margin-bottom: 10px; color: var(--accent); }
+        
+        input[type="email"] { 
+            width: 100%; 
+            padding: 14px; 
+            border: 1px solid #d2d2d7; 
+            border-radius: 12px; 
+            font-size: 16px; 
+            outline: none; 
+            box-sizing: border-box; 
+            transition: border 0.2s, box-shadow 0.2s; 
+        }
+        input[type="email"]:focus { 
+            border-color: var(--accent); 
+            box-shadow: 0 0 0 4px rgba(15, 44, 89, 0.1);
+        }
+        
+        /* Bloques de Preguntas */
+        .block-title {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #86868b;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        .question-block { 
+            margin-bottom: 30px; 
+            border-top: 1px solid #f2f2f7; 
+            padding-top: 20px; 
+        }
+        .question-text { font-size: 16px; font-weight: 400; margin-bottom: 16px; line-height: 1.4; }
+        
+        /* Rejillas de Opciones */
+        .options-grid { display: grid; gap: 10px; }
+        .grid-5 { grid-template-columns: repeat(5, 1fr); text-align: center; }
+        .grid-11 { grid-template-columns: repeat(11, 1fr); text-align: center; }
+        
+        .option-item { position: relative; }
+        .option-item input { position: absolute; opacity: 0; width: 100%; height: 100%; top: 0; left: 0; cursor: pointer; }
+        
+        .option-item label { 
+            display: block; 
+            padding: 12px 15px; 
+            background: #f5f5f7; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+            font-size: 15px;
+            font-weight: 400; 
+            box-sizing: border-box;
+        }
+        .option-item input:checked + label { 
+            background: var(--accent); 
+            color: white; 
+        }
+        
+        /* Estilos específicos para escalas compactas (1 a 5 y 0 a 10) */
+        .grid-5 label, .grid-11 label {
+            padding: 12px 5px;
+            font-size: 14px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 14px;
+            border: 1px solid #d2d2d7;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 15px;
+            outline: none;
+            resize: vertical;
+            box-sizing: border-box;
+            transition: border 0.2s;
+        }
+        textarea:focus { border-color: var(--accent); }
 
         button { 
-            width: 100%; background: var(--accent); color: white; border: none; 
-            padding: 16px; border-radius: 12px; font-size: 16px; font-weight: 600; 
-            cursor: pointer; transition: opacity 0.2s; margin-top: 20px;
+            width: 100%; 
+            background: var(--accent); 
+            color: white; 
+            border: none; 
+            padding: 16px; 
+            border-radius: 12px; 
+            font-size: 16px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: background 0.2s; 
+            margin-top: 30px;
         }
-        button:hover { opacity: 0.9; }
-        #status { text-align: center; margin-top: 20px; font-size: 14px; }
+        button:hover { background: var(--accent-hover); }
+        button:disabled { background: #d2d2d7; cursor: not-allowed; }
+        #status { text-align: center; margin-top: 20px; font-size: 15px; font-weight: 600; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="card">
-        <h1>Formulario de Opinión</h1>
+        
+        <div class="brand-header">
+            <img src="logoEncuestas.jpeg" alt="Logo TanatoTech" class="brand-logo">
+            <h1>Evaluación de Sistemas y Servicios</h1>
+            <div class="subtitle">TanatoTech S.L.</div>
+        </div>
+
         <form id="pollForm">
             <div class="input-group">
-                <label>Correo Electrónico</label>
-                <input type="email" id="email" placeholder="nombre@ejemplo.com" required>
+                <label class="main-label" for="email">Correo Electrónico Institucional</label>
+                <input type="email" id="email" placeholder="usuario@institucion.com" required>
             </div>
 
+            <div class="block-title">Bloque 1: Calidad del Servicio Técnico y Automatización</div>
+            
             <div class="question-block">
-                <div class="question-text">1. ¿Qué te parece el diseño minimalista?</div>
-                <div class="options-grid">
-                    <div class="option-item"><input type="radio" name="p1" id="p1a" value="Excelente" required><label for="p1a">Excelente</label></div>
-                    <div class="option-item"><input type="radio" name="p1" id="p1b" value="Bueno"><label for="p1b">Bueno</label></div>
-                    <div class="option-item"><input type="radio" name="p1" id="p1c" value="Mejorable"><label for="p1c">Mejorable</label></div>
+                <div class="question-text">1. ¿Cómo calificaría la precisión y fiabilidad del sistema robótico asistido por IA durante los procedimientos?</div>
+                <div class="options-grid grid-5">
+                    <div class="option-item"><input type="radio" name="p1" id="p1_1" value="1" required><label for="p1_1">1</label></div>
+                    <div class="option-item"><input type="radio" name="p1" id="p1_2" value="2"><label for="p1_2">2</label></div>
+                    <div class="option-item"><input type="radio" name="p1" id="p1_3" value="3"><label for="p1_3">3</label></div>
+                    <div class="option-item"><input type="radio" name="p1" id="p1_4" value="4"><label for="p1_4">4</label></div>
+                    <div class="option-item"><input type="radio" name="p1" id="p1_5" value="5"><label for="p1_5">5</label></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 11px; color: #86868b; margin-top: 5px; padding: 0 5px;">
+                    <span>Muy insatisfecho</span>
+                    <span>Muy satisfecho</span>
                 </div>
             </div>
 
             <div class="question-block">
-                <div class="question-text">2. ¿Qué plataforma prefieres?</div>
+                <div class="question-text">2. En caso de haber experimentado alguna incidencia de software o hardware, ¿cómo evalúa la rapidez y eficacia de nuestro soporte técnico?</div>
                 <div class="options-grid">
-                    <div class="option-item"><input type="radio" name="p2" id="p2a" value="Web" required><label for="p2a">Web</label></div>
-                    <div class="option-item"><input type="radio" name="p2" id="p2b" value="App"><label for="p2b">App</label></div>
+                    <div class="option-item"><input type="radio" name="p2" id="p2_1" value="1" required><label for="p2_1">1 (Muy lento/ineficaz)</label></div>
+                    <div class="option-item"><input type="radio" name="p2" id="p2_2" value="2"><label for="p2_2">2</label></div>
+                    <div class="option-item"><input type="radio" name="p2" id="p2_3" value="3"><label for="p2_3">3</label></div>
+                    <div class="option-item"><input type="radio" name="p2" id="p2_4" value="4"><label for="p2_4">4</label></div>
+                    <div class="option-item"><input type="radio" name="p2" id="p2_5" value="5"><label for="p2_5">5 (Excelente soporte)</label></div>
+                    <div class="option-item"><input type="radio" name="p2" id="p2_6" value="No he tenido incidencias"><label for="p2_6">No he tenido incidencias</label></div>
                 </div>
             </div>
 
-            <button type="submit" id="btnSubmit">Enviar Respuestas</button>
+            <div class="question-block">
+                <div class="question-text">3. ¿En qué medida el software de gestión y trazabilidad (Blockchain) ha facilitado el registro y la seguridad de las muestras en su institución?</div>
+                <div class="options-grid grid-5">
+                    <div class="option-item"><input type="radio" name="p3" id="p3_1" value="1" required><label for="p3_1">1</label></div>
+                    <div class="option-item"><input type="radio" name="p3" id="p3_2" value="2"><label for="p3_2">2</label></div>
+                    <div class="option-item"><input type="radio" name="p3" id="p3_3" value="3"><label for="p3_3">3</label></div>
+                    <div class="option-item"><input type="radio" name="p3" id="p3_4" value="4"><label for="p3_4">4</label></div>
+                    <div class="option-item"><input type="radio" name="p3" id="p3_5" value="5"><label for="p3_5">5</label></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 11px; color: #86868b; margin-top: 5px; padding: 0 5px;">
+                    <span>No ha facilitado nada</span>
+                    <span>Ha facilitado mucho</span>
+                </div>
+            </div>
+
+            <div class="block-title">Bloque 2: Eficiencia y Tiempos de Entrega</div>
+            
+            <div class="question-block">
+                <div class="question-text">4. ¿Cómo valora la reducción de los tiempos de análisis y entrega de informes en comparación con los métodos convencionales manuales?</div>
+                <div class="options-grid grid-5">
+                    <div class="option-item"><input type="radio" name="p4" id="p4_1" value="1" required><label for="p4_1">1</label></div>
+                    <div class="option-item"><input type="radio" name="p4" id="p4_2" value="2"><label for="p4_2">2</label></div>
+                    <div class="option-item"><input type="radio" name="p4" id="p4_3" value="3"><label for="p4_3">3</label></div>
+                    <div class="option-item"><input type="radio" name="p4" id="p4_4" value="4"><label for="p4_4">4</label></div>
+                    <div class="option-item"><input type="radio" name="p4" id="p4_5" value="5"><label for="p4_5">5</label></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 11px; color: #86868b; margin-top: 5px; padding: 0 5px;">
+                    <span>Peor que antes</span>
+                    <span>Significativamente mejor</span>
+                </div>
+            </div>
+
+            <div class="block-title">Bloque 3: Formación, Asesoramiento y Trato Personalizado</div>
+            
+            <div class="question-block">
+                <div class="question-text">5. ¿El programa de formación y las simulaciones virtuales proporcionadas por TanatoTech prepararon adecuadamente a su personal para operar los equipos con confianza?</div>
+                <div class="options-grid grid-5">
+                    <div class="option-item"><input type="radio" name="p5" id="p5_1" value="1" required><label for="p5_1">1</label></div>
+                    <div class="option-item"><input type="radio" name="p5" id="p5_2" value="2"><label for="p5_2">2</label></div>
+                    <div class="option-item"><input type="radio" name="p5" id="p5_3" value="3"><label for="p5_3">3</label></div>
+                    <div class="option-item"><input type="radio" name="p5" id="p5_4" value="4"><label for="p5_4">4</label></div>
+                    <div class="option-item"><input type="radio" name="p5" id="p5_5" value="5"><label for="p5_5">5</label></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 11px; color: #86868b; margin-top: 5px; padding: 0 5px;">
+                    <span>Totalmente en desacuerdo</span>
+                    <span>Totalmente de acuerdo</span>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <div class="question-text">6. ¿Cómo califica la atención, el trato y el asesoramiento científico/técnico recibido por parte del equipo de TanatoTech?</div>
+                <div class="options-grid grid-5">
+                    <div class="option-item"><input type="radio" name="p6" id="p6_1" value="1" required><label for="p6_1">1</label></div>
+                    <div class="option-item"><input type="radio" name="p6" id="p6_2" value="2"><label for="p6_2">2</label></div>
+                    <div class="option-item"><input type="radio" name="p6" id="p6_3" value="3"><label for="p6_3">3</label></div>
+                    <div class="option-item"><input type="radio" name="p6" id="p6_4" value="4"><label for="p6_4">4</label></div>
+                    <div class="option-item"><input type="radio" name="p6" id="p6_5" value="5"><label for="p6_5">5</label></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 11px; color: #86868b; margin-top: 5px; padding: 0 5px;">
+                    <span>Deficiente</span>
+                    <span>Excelente</span>
+                </div>
+            </div>
+
+            <div class="block-title">Bloque 4: Valor Añadido</div>
+            
+            <div class="question-block">
+                <div class="question-text">7. ¿Qué utilidad han tenido las reconstrucciones digitales y modelados en 3D para la presentación de resultados ante las autoridades judiciales o juntas médicas?</div>
+                <div class="options-grid grid-5">
+                    <div class="option-item"><input type="radio" name="p7" id="p7_1" value="1" required><label for="p7_1">1</label></div>
+                    <div class="option-item"><input type="radio" name="p7" id="p7_2" value="2"><label for="p7_2">2</label></div>
+                    <div class="option-item"><input type="radio" name="p7" id="p7_3" value="3"><label for="p7_3">3</label></div>
+                    <div class="option-item"><input type="radio" name="p7" id="p7_4" value="4"><label for="p7_4">4</label></div>
+                    <div class="option-item"><input type="radio" name="p7" id="p7_5" value="5"><label for="p7_5">5</label></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 11px; color: #86868b; margin-top: 5px; padding: 0 5px;">
+                    <span>Ninguna utilidad</span>
+                    <span>Excelente utilidad</span>
+                </div>
+            </div>
+
+            <div class="block-title">Bloque 5: Cumplimiento Ético, Privacidad y Seguridad</div>
+            
+            <div class="question-block">
+                <div class="question-text">8. ¿Qué nivel de confianza le inspira nuestro sistema en cuanto al cifrado de datos clínicos y el cumplimiento de la normativa de protección de datos (LOPD)?</div>
+                <div class="options-grid grid-5">
+                    <div class="option-item"><input type="radio" name="p8" id="p8_1" value="1" required><label for="p8_1">1</label></div>
+                    <div class="option-item"><input type="radio" name="p8" id="p8_2" value="2"><label for="p8_2">2</label></div>
+                    <div class="option-item"><input type="radio" name="p8" id="p8_3" value="3"><label for="p8_3">3</label></div>
+                    <div class="option-item"><input type="radio" name="p8" id="p8_4" value="4"><label for="p8_4">4</label></div>
+                    <div class="option-item"><input type="radio" name="p8" id="p8_5" value="5"><label for="p8_5">5</label></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 11px; color: #86868b; margin-top: 5px; padding: 0 5px;">
+                    <span>Baja confianza</span>
+                    <span>Alta confianza</span>
+                </div>
+            </div>
+
+            <div class="block-title">Bloque 6: Fidelización y Métrica General</div>
+            
+            <div class="question-block">
+                <div class="question-text">9. Pensando en su experiencia global con TanatoTech, ¿cuál es la probabilidad de que recomiende nuestros sistemas y servicios a otros hospitales o institutos forenses? (Métrica NPS)</div>
+                <div class="options-grid grid-11">
+                    <div class="option-item"><input type="radio" name="p9" id="p9_0" value="0" required><label for="p9_0">0</label></div>
+                    <div class="option-item"><input type="radio" name="p9" id="p9_1" value="1"><label for="p9_1">1</label></div>
+                    <div class="option-item"><input type="radio" name="p9" id="p9_2" value="2"><label for="p9_2">2</label></div>
+                    <div class="option-item"><input type="radio" name="p9" id="p9_3" value="3"><label for="p9_3">3</label></div>
+                    <div class="option-item"><input type="radio" name="p9" id="p9_4" value="4"><label for="p9_4">4</label></div>
+                    <div class="option-item"><input type="radio" name="p9" id="p9_5" value="5"><label for="p9_5">5</label></div>
+                    <div class="option-item"><input type="radio" name="p9" id="p9_6" value="6"><label for="p9_6">6</label></div>
+                    <div class="option-item"><input type="radio" name="p9" id="p9_7" value="7"><label for="p9_7">7</label></div>
+                    <div class="option-item"><input type="radio" name="p9" id="p9_8" value="8"><label for="p9_8">8</label></div>
+                    <div class="option-item"><input type="radio" name="p9" id="p9_9" value="9"><label for="p9_9">9</label></div>
+                    <div class="option-item"><input type="radio" name="p9" id="p9_10" value="10"><label for="p9_10">10</label></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 11px; color: #86868b; margin-top: 5px; padding: 0 5px;">
+                    <span>Muy improbable</span>
+                    <span>Altamente probable</span>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <div class="question-text">10. Por favor, comparta cualquier sugerencia, comentario o aspecto de mejora sobre nuestro sistema automatizado:</div>
+                <textarea id="p10" placeholder="Escriba aquí sus comentarios cualitativos... (Opcional)"></textarea>
+            </div>
+
+            <button type="submit" id="btnSubmit">Enviar Evaluación</button>
         </form>
         <div id="status"></div>
     </div>
@@ -74,6 +333,7 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getDatabase, ref, push, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
+    // Tu configuración exacta de Firebase Realtime Database
     const firebaseConfig = {
         apiKey: "AIzaSyBkCm1pbSyFg-d9nDoMAWboOSUJSm52n88",
         authDomain: "encuestas-20eaa.firebaseapp.com",
@@ -90,29 +350,42 @@
     document.getElementById('pollForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = document.getElementById('btnSubmit');
+        const statusDiv = document.getElementById('status');
+        
         btn.disabled = true;
-        btn.innerText = "Enviando...";
+        btn.innerText = "Procesando envío...";
 
-        // Recopilar todas las respuestas en un objeto
+        // Empaquetado completo de las 10 respuestas estructuradas
         const respuestas = {
-            pregunta1: document.querySelector('input[name="p1"]:checked').value,
-            pregunta2: document.querySelector('input[name="p2"]:checked').value,
-            // Agrega aquí p3, p4... hasta p10
+            calidad_tecnica: document.querySelector('input[name="p1"]:checked').value,
+            incidencias_soporte: document.querySelector('input[name="p2"]:checked').value,
+            trazabilidad_blockchain: document.querySelector('input[name="p3"]:checked').value,
+            tiempos_entrega: document.querySelector('input[name="p4"]:checked').value,
+            formacion_personal: document.querySelector('input[name="p5"]:checked').value,
+            atencion_asesoramiento: document.querySelector('input[name="p6"]:checked').value,
+            reconstruccion_3d: document.querySelector('input[name="p7"]:checked').value,
+            confidencialidad_lopd: document.querySelector('input[name="p8"]:checked').value,
+            nps_recomendacion: document.querySelector('input[name="p9"]:checked').value,
+            comentarios_libres: document.getElementById('p10').value.trim() || "Sin comentarios"
         };
 
         try {
             await push(ref(db, 'votos'), {
                 correo: document.getElementById('email').value,
                 respuestas: respuestas,
-                timestamp: serverTimestamp() // Firebase guarda milisegundos, los convertiremos en la otra web
+                timestamp: serverTimestamp()
             });
-            document.getElementById('status').innerHTML = "✨ Enviado correctamente";
+            
+            statusDiv.style.color = "#2ecc71";
+            statusDiv.innerHTML = "✨ Evaluación enviada correctamente. ¡Gracias por su tiempo!";
             document.getElementById('pollForm').reset();
         } catch (err) {
-            document.getElementById('status').innerText = "Error al enviar";
+            console.error(err);
+            statusDiv.style.color = "#e74c3c";
+            statusDiv.innerText = "❌ Error al enviar. Por favor, inténtelo de nuevo.";
         } finally {
             btn.disabled = false;
-            btn.innerText = "Enviar Respuestas";
+            btn.innerText = "Enviar Evaluación";
         }
     });
 </script>
